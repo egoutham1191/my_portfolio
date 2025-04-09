@@ -20,7 +20,7 @@
 
     header {
       text-align: center;
-      font-size: 2.5em;
+      font-size: 2.2em;
       font-weight: bold;
       padding: 1em 0;
       color: var(--accent-color);
@@ -33,40 +33,47 @@
 
     .kpi-container {
       display: flex;
-      justify-content: center;
       flex-wrap: wrap;
-      gap: 2em;
-      padding: 2em 1em;
+      justify-content: center;
+      gap: 1.5em;
+      padding: 1em;
     }
 
     .kpi-tile {
       background: rgba(255, 255, 255, 0.15);
       border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 16px;
-      padding: 1.5em 2em;
+      padding: 1.2em 1.5em;
       text-align: center;
       color: var(--accent-color);
       backdrop-filter: blur(12px);
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-      min-width: 250px;
+      width: 280px;
+      flex: 1 1 280px;
     }
 
     .kpi-tile h3 {
       margin: 0;
-      font-size: 1.1em;
+      font-size: 1em;
       color: #e2e8f0;
       font-weight: 500;
     }
 
     .kpi-tile p {
       margin-top: 0.5em;
-      font-size: 1.8em;
+      font-size: 1.6em;
       font-family: 'Roboto Mono', monospace;
       color: #fff;
     }
 
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      padding: 0 1em;
+    }
+
     table {
-      width: 95%;
+      width: 100%;
       margin: 2em auto;
       border-collapse: collapse;
       background: rgba(255, 255, 255, 0.08);
@@ -74,6 +81,7 @@
       overflow: hidden;
       backdrop-filter: blur(6px);
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      min-width: 900px;
     }
 
     th, td {
@@ -95,6 +103,28 @@
     tbody tr:last-child td {
       border-bottom: none;
     }
+
+    @media (max-width: 768px) {
+      header {
+        font-size: 1.6em;
+        padding: 0.75em;
+      }
+
+      .kpi-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 1em;
+      }
+
+      .kpi-tile {
+        width: 90%;
+        max-width: 320px;
+      }
+
+      table {
+        font-size: 0.85em;
+      }
+    }
   </style>
 </head>
 <body>
@@ -115,22 +145,25 @@
     </div>
   </div>
 
-  <table id="portfolioTable">
-    <thead>
-      <tr>
-        <th>Stock</th>
-        <th>Qty</th>
-        <th>% of Portfolio</th>
-        <th>Avg Cost</th>
-        <th>Total Invested</th>
-        <th>Current Price</th>
-        <th>Current Value</th>
-        <th>% Gain/Loss</th>
-        <th>Total Gain/Loss</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+  <div class="table-wrapper">
+    <table id="portfolioTable">
+      <thead>
+        <tr>
+          <th>Stock</th>
+          <th>Qty</th>
+          <th>% of Portfolio</th>
+          <th>Avg Cost</th>
+          <th>Total Invested</th>
+          <th>Current Price</th>
+          <th>Current Value</th>
+          <th>% Gain/Loss</th>
+          <th>Total Gain/Loss</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
 
   <script>
     const kpi_URL = 'https://api.sheetbest.com/sheets/6e7c04dd-29bf-4ccd-955b-f6c358ec82a1/tabs/Sheet2';
@@ -143,7 +176,6 @@
         document.getElementById('capitalInvested').innerText = kpiData.capital;
         document.getElementById('currentValue').innerText = kpiData.value;
         document.getElementById('netProfit').innerText = kpiData['P&L %'];
-
       })
       .catch(err => console.error("Failed to fetch KPI data:", err));
 
