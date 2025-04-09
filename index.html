@@ -79,9 +79,6 @@
     <tbody></tbody>
   </table>
 
-  <script>
-    const kpi_URL = 'https://api.sheetbest.com/sheets/6e7c04dd-29bf-4ccd-955b-f6c358ec82a1/tabs/Sheet2'; // Replace with Sheet.best API link
-//const invstmnt_URL = 'https://api.sheetbest.com/sheets/6e7c04dd-29bf-4ccd-955b-f6c358ec82a1/sheet1';
 <script>
   const kpi_URL = 'https://api.sheetbest.com/sheets/6e7c04dd-29bf-4ccd-955b-f6c358ec82a1/tabs/Sheet2';
 
@@ -95,39 +92,5 @@
     })
     .catch(err => console.error("Failed to fetch KPI data:", err));
 </script>
-<script>
-  const kpi_URL = 'https://api.sheetbest.com/sheets/6e7c04dd-29bf-4ccd-955b-f6c358ec82a1/tabs/Sheet2';
-
-  fetch(kpi_URL)
-    .then(res => res.json())
-    .then(data => {
-      const kpiData = data[0]; // data is an array
-      document.getElementById('capitalInvested').innerText = `Capital Invested: ${kpiData.capital}`;
-      document.getElementById('currentValue').innerText = `Current Value: ${kpiData.value}`;
-      document.getElementById('netProfit').innerText = `Net Profit/Loss: ${kpiData['P&L %']}`;
-    })
-    .catch(err => console.error("Failed to fetch KPI data:", err));
-
-
-        // Fill stock table (from 4th row onward)
-        const tbody = document.querySelector('#portfolioTable tbody');
-        for (let i = 3; i < data.length; i++) {
-          const row = data[i];
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${row.Stock}</td>
-            <td>${row.Qty}</td>
-            <td>${row["% of Portfolio"]}</td>
-            <td>${row["Avg Cost"]}</td>
-            <td>${row["Total Invested"]}</td>
-            <td>${row["Current Price"]}</td>
-            <td>${row["Current Value"]}</td>
-            <td>${row["% Gain/Loss"]}</td>
-            <td>${row["Total Gain/Loss"]}</td>
-          `;
-          tbody.appendChild(tr);
-        }
-      });
-  </script>
 </body>
 </html>
