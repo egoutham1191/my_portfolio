@@ -6,10 +6,14 @@
   <title>Goutham Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Roboto+Mono&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --accent-color: #38f9d7;
+    }
+
     body {
       margin: 0;
       padding: 0;
-      background: linear-gradient(to bottom right, #0f172a, #1e293b);
+      background: linear-gradient(135deg, #0f172a, #1e293b);
       font-family: 'Poppins', sans-serif;
       color: #fff;
     }
@@ -19,114 +23,73 @@
       font-size: 2.5em;
       font-weight: bold;
       padding: 1em 0;
-      color: #facc15;
+      color: var(--accent-color);
+      background: #ffffff10;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+      margin-bottom: 1em;
       letter-spacing: 1px;
     }
 
     .kpi-container {
       display: flex;
-      justify-content: space-around;
+      justify-content: center;
       flex-wrap: wrap;
-      gap: 1.5em;
-      padding: 2em;
+      gap: 2em;
+      padding: 2em 1em;
     }
 
     .kpi-tile {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.15);
       border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 16px;
       padding: 1.5em 2em;
       text-align: center;
-      color: #facc15;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-      width: 280px;
+      color: var(--accent-color);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      min-width: 250px;
     }
 
     .kpi-tile h3 {
       margin: 0;
-      font-size: 1.2em;
-      font-weight: normal;
+      font-size: 1.1em;
       color: #e2e8f0;
+      font-weight: 500;
     }
 
     .kpi-tile p {
       margin-top: 0.5em;
       font-size: 1.8em;
       font-family: 'Roboto Mono', monospace;
+      color: #fff;
     }
 
     table {
       width: 95%;
       margin: 2em auto;
       border-collapse: collapse;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.08);
       border-radius: 16px;
       overflow: hidden;
       backdrop-filter: blur(6px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
     }
 
     th, td {
       padding: 1em;
       text-align: center;
-      color: #e2e8f0;
       font-family: 'Roboto Mono', monospace;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     th {
-      background-color: #facc15;
+      background-color: var(--accent-color);
       color: #000;
-      font-family: 'Poppins', sans-serif;
     }
 
-    tbody tr:last-child td {
-      border-bottom: none;
-    }
-  </style>
-</head>
-<body>
-  <header>GOUTHAM PORTFOLIO</header>
-
-  <div class="kpi-container">
-    <div class="kpi-tile">
-      <h3>Capital Invested</h3>
-      <p id="capitalInvested">Loading...</p>
-    </div>
-    <div class="kpi-tile">
-      <h3>Current Value</h3>
-      <p id="currentValue">Loading...</p>
-    </div>
-    <div class="kpi-tile">
-      <h3>Net Profit / Loss</h3>
-      <p id="netProfit">Loading...</p>
-        document.getElementById('capitalInvested').innerText = `${kpiData.capital}`;
-        document.getElementById('currentValue').innerText = `${kpiData.value}`;
-        document.getElementById('netProfit').innerText = `${kpiData['P&L %']}`;
-      })
-      .catch(err => console.error("Failed to fetch KPI data:", err));
-
-    fetch(invstmnt_URL)
-      .then(res => res.json())
-      .then(data => {
-        const tbody = document.querySelector("#portfolioTable tbody");
-
-        data.forEach(row => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${row.Stock}</td>
-            <td>${row.Qty}</td>
-            <td>${row["% of Portfolio"]}</td>
-            <td>${row["Avg Cost"]}</td>
-            <td>${row["Total Invested"]}</td>
-            <td>${row["Current Price"]}</td>
-            <td>${row["Current Value"]}</td>
-            <td>${row["% Gain/Loss"]}</td>
-            <td>${row["Total Gain/Loss"]}</td>
-          `;
-
-          // Color coding gain/loss
+    td {
+      color: #e2e8f0;
           const gainCell = tr.children[7];
           const totalGainCell = tr.children[8];
 
