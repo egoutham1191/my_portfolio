@@ -90,6 +90,82 @@
 
     td {
       color: #e2e8f0;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+  <header>GOUTHAM PORTFOLIO</header>
+
+  <div class="kpi-container">
+    <div class="kpi-tile">
+      <h3>Capital Invested</h3>
+      <p id="capitalInvested">Loading...</p>
+    </div>
+    <div class="kpi-tile">
+      <h3>Current Value</h3>
+      <p id="currentValue">Loading...</p>
+    </div>
+    <div class="kpi-tile">
+      <h3>Net Profit / Loss</h3>
+      <p id="netProfit">Loading...</p>
+    </div>
+  </div>
+
+  <table id="portfolioTable">
+    <thead>
+      <tr>
+        <th>Stock</th>
+        <th>Qty</th>
+        <th>% of Portfolio</th>
+        <th>Avg Cost</th>
+        <th>Total Invested</th>
+        <th>Current Price</th>
+        <th>Current Value</th>
+        <th>% Gain/Loss</th>
+        <th>Total Gain/Loss</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const kpi_URL = 'https://api.sheetbest.com/sheets/6e7c04dd-29bf-4ccd-955b-f6c358ec82a1/tabs/Sheet2';
+    const invstmnt_URL = 'https://api.sheetbest.com/sheets/6e7c04dd-29bf-4ccd-955b-f6c358ec82a1/tabs/Sheet1';
+
+    fetch(kpi_URL)
+      .then(res => res.json())
+      .then(data => {
+        const kpiData = data[0];
+        document.getElementById('capitalInvested').innerText = kpiData.capital;
+        document.getElementById('currentValue').innerText = kpiData.value;
+        document.getElementById('netProfit').innerText = kpiData['P&L %'];
+
+      })
+      .catch(err => console.error("Failed to fetch KPI data:", err));
+
+    fetch(invstmnt_URL)
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.querySelector("#portfolioTable tbody");
+
+        data.forEach(row => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${row.Stock}</td>
+            <td>${row.Qty}</td>
+            <td>${row["% of Portfolio"]}</td>
+            <td>${row["Avg Cost"]}</td>
+            <td>${row["Total Invested"]}</td>
+            <td>${row["Current Price"]}</td>
+            <td>${row["Current Value"]}</td>
+            <td>${row["% Gain/Loss"]}</td>
+            <td>${row["Total Gain/Loss"]}</td>
+          `;
+
           const gainCell = tr.children[7];
           const totalGainCell = tr.children[8];
 
