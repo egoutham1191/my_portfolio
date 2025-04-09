@@ -81,6 +81,7 @@
 
 <script>
   const kpi_URL = 'https://api.sheetbest.com/sheets/6e7c04dd-29bf-4ccd-955b-f6c358ec82a1/tabs/Sheet2';
+const invstmnt_URL = 'https://api.sheetbest.com/sheets/6e7c04dd-29bf-4ccd-955b-f6c358ec82a1/sheet1';
 
   fetch(kpi_URL)
     .then(res => res.json())
@@ -91,6 +92,44 @@
       document.getElementById('netProfit').innerText = `Net Profit/Loss: ${kpiData['P&L %']}`;
     })
     .catch(err => console.error("Failed to fetch KPI data:", err));
+
+  // Fetch and populate stock table
+  fetch(invstmnt_URL)
+    .then(res => res.json())
+    .then(data => {
+      const tbody = document.querySelector("#portfolioTable tbody");
+
+      data.forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${row.Stock}</td>
+          <td>${row.Qty}</td>
+          <td>${row["% of Portfolio"]}</td>
+          <td>${row["Avg Cost"]}</td>
+          <td>${row["Total Invested"]}</td>
+          <td>${row["Current Price"]}</td>
+          <td>${row["Current Value"]}</td>
+          <td>${row["% Gain/Loss"]}</td>
+          <td>${row["Total Gain/Loss"]}</td>
+        `;
+
+        // Apply gain/loss styling
+        const gainCell = tr.children[7];
+        const totalGainCell = tr.children[8];
+
+        if (parseFloat(row["% Gain/Loss"]) < 0) {
+          gainCell.style.color = "red";
+          totalGainCell.style.color = "red";
+        } else {
+          gainCell.style.color = "green";
+          totalGainCell.style.color = "green";
+        }
+
+        tbody.appendChild(tr);
+      });
+    })
+    .catch(err => console.error("Investment Fetch Error:", err));
+
 </script>
 </body>
 </html>
