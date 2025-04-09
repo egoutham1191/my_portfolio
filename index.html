@@ -4,132 +4,144 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Goutham Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Roboto+Mono&display=swap" rel="stylesheet">
   <style>
     body {
-      background-color: #000;
-      color: #facc15;
-      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
+      background: linear-gradient(to bottom right, #0f172a, #1e293b);
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
     }
+
     header {
       text-align: center;
-      font-size: 2em;
+      font-size: 2.5em;
       font-weight: bold;
       padding: 1em 0;
+      color: #facc15;
+      letter-spacing: 1px;
     }
+
     .kpi-container {
       display: flex;
       justify-content: space-around;
-      padding: 1em;
+      flex-wrap: wrap;
+      gap: 1.5em;
+      padding: 2em;
     }
+
     .kpi-tile {
-      background-color: #fff;
-      color: #facc15;
-      padding: 1.5em;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(192, 192, 192, 0.5);
-      width: 25%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 16px;
+      padding: 1.5em 2em;
       text-align: center;
+      color: #facc15;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      width: 280px;
     }
+
+    .kpi-tile h3 {
+      margin: 0;
+      font-size: 1.2em;
+      font-weight: normal;
+      color: #e2e8f0;
+    }
+
+    .kpi-tile p {
+      margin-top: 0.5em;
+      font-size: 1.8em;
+      font-family: 'Roboto Mono', monospace;
+    }
+
     table {
-      width: 90%;
+      width: 95%;
       margin: 2em auto;
       border-collapse: collapse;
-      background-color: #fff;
-      box-shadow: 0 4px 15px rgba(192, 192, 192, 0.5);
-      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
       overflow: hidden;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     }
+
     th, td {
-      padding: 0.75em;
-      border: 1px solid #ccc;
+      padding: 1em;
       text-align: center;
-      color: #000;
+      color: #e2e8f0;
+      font-family: 'Roboto Mono', monospace;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
+
     th {
       background-color: #facc15;
       color: #000;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
     }
   </style>
 </head>
 <body>
-  <header>Goutham PORTFOLIO</header>
+  <header>GOUTHAM PORTFOLIO</header>
 
   <div class="kpi-container">
-    <div class="kpi-tile" id="capitalInvested"></div>
-    <div class="kpi-tile" id="currentValue"></div>
-    <div class="kpi-tile" id="netProfit"></div>
-  </div>
+    <div class="kpi-tile">
+      <h3>Capital Invested</h3>
+      <p id="capitalInvested">Loading...</p>
+    </div>
+    <div class="kpi-tile">
+      <h3>Current Value</h3>
+      <p id="currentValue">Loading...</p>
+    </div>
+    <div class="kpi-tile">
+      <h3>Net Profit / Loss</h3>
+      <p id="netProfit">Loading...</p>
+        document.getElementById('capitalInvested').innerText = `${kpiData.capital}`;
+        document.getElementById('currentValue').innerText = `${kpiData.value}`;
+        document.getElementById('netProfit').innerText = `${kpiData['P&L %']}`;
+      })
+      .catch(err => console.error("Failed to fetch KPI data:", err));
 
-  <table id="portfolioTable">
-    <thead>
-      <tr>
-        <th>Stock</th>
-        <th>Qty</th>
-        <th>% of Portfolio</th>
-        <th>Avg Cost</th>
-        <th>Total Invested</th>
-        <th>Current Price</th>
-        <th>Current Value</th>
-        <th>% Gain/Loss</th>
-        <th>Total Gain/Loss</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+    fetch(invstmnt_URL)
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.querySelector("#portfolioTable tbody");
 
-<script>
-  const kpi_URL = 'https://api.sheetbest.com/sheets/6e7c04dd-29bf-4ccd-955b-f6c358ec82a1/tabs/Sheet2';
-const invstmnt_URL = 'https://api.sheetbest.com/sheets/6e7c04dd-29bf-4ccd-955b-f6c358ec82a1/tabs/Sheet1';
+        data.forEach(row => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${row.Stock}</td>
+            <td>${row.Qty}</td>
+            <td>${row["% of Portfolio"]}</td>
+            <td>${row["Avg Cost"]}</td>
+            <td>${row["Total Invested"]}</td>
+            <td>${row["Current Price"]}</td>
+            <td>${row["Current Value"]}</td>
+            <td>${row["% Gain/Loss"]}</td>
+            <td>${row["Total Gain/Loss"]}</td>
+          `;
 
-  fetch(kpi_URL)
-    .then(res => res.json())
-    .then(data => {
-      const kpiData = data[0]; // data is an array
-      document.getElementById('capitalInvested').innerText = `Capital Invested: ${kpiData.capital}`;
-      document.getElementById('currentValue').innerText = `Current Value: ${kpiData.value}`;
-      document.getElementById('netProfit').innerText = `Net Profit/Loss: ${kpiData['P&L %']}`;
-    })
-    .catch(err => console.error("Failed to fetch KPI data:", err));
+          // Color coding gain/loss
+          const gainCell = tr.children[7];
+          const totalGainCell = tr.children[8];
 
-  // Fetch and populate stock table
-  fetch(invstmnt_URL)
-    .then(res => res.json())
-    .then(data => {
-      const tbody = document.querySelector("#portfolioTable tbody");
+          if (parseFloat(row["% Gain/Loss"]) < 0) {
+            gainCell.style.color = "red";
+            totalGainCell.style.color = "red";
+          } else {
+            gainCell.style.color = "lime";
+            totalGainCell.style.color = "lime";
+          }
 
-      data.forEach(row => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${row.Stock}</td>
-          <td>${row.Qty}</td>
-          <td>${row["% of Portfolio"]}</td>
-          <td>${row["Avg Cost"]}</td>
-          <td>${row["Total Invested"]}</td>
-          <td>${row["Current Price"]}</td>
-          <td>${row["Current Value"]}</td>
-          <td>${row["% Gain/Loss"]}</td>
-          <td>${row["Total Gain/Loss"]}</td>
-        `;
-
-        // Apply gain/loss styling
-        const gainCell = tr.children[7];
-        const totalGainCell = tr.children[8];
-
-        if (parseFloat(row["% Gain/Loss"]) < 0) {
-          gainCell.style.color = "red";
-          totalGainCell.style.color = "red";
-        } else {
-          gainCell.style.color = "green";
-          totalGainCell.style.color = "green";
-        }
-
-        tbody.appendChild(tr);
-      });
-    })
-    .catch(err => console.error("Investment Fetch Error:", err));
-
-</script>
+          tbody.appendChild(tr);
+        });
+      })
+      .catch(err => console.error("Investment Fetch Error:", err));
+  </script>
 </body>
 </html>
