@@ -81,19 +81,33 @@
 
   <script>
     const kpi_URL = 'https://api.sheetbest.com/sheets/6e7c04dd-29bf-4ccd-955b-f6c358ec82a1/tabs/Sheet2'; // Replace with Sheet.best API link
-const invstmnt_URL = 'https://api.sheetbest.com/sheets/6e7c04dd-29bf-4ccd-955b-f6c358ec82a1/sheet1';
+//const invstmnt_URL = 'https://api.sheetbest.com/sheets/6e7c04dd-29bf-4ccd-955b-f6c358ec82a1/sheet1';
+<script>
+  const kpi_URL = 'https://api.sheetbest.com/sheets/6e7c04dd-29bf-4ccd-955b-f6c358ec82a1/tabs/Sheet2';
 
-    fetch(kpi_URL)
-      .then(res => res.json())
-      .then(data => {
-        // Set KPI values (assumes first 3 rows are KPIs)
-      //  document.getElementById('Capital Invested').innerText = `Capital Invested: ${data.capital}`;
-        //document.getElementById('value').innerText = `Current Value: ${data.Value}`;
-        //document.getElementById('P&L').innerText = `Net Profit/Loss: ${data["P&L %]}`;
-      //  const kpiData = data[1]
-        document.getElementById('capitalInvested').innerText = `Capital Invested: ${data.capital}`;
-        document.getElementById('currentValue').innerText = `Current Value: ${data.value}`;
-        document.getElementById('netProfit').innerText = `Net Profit/Loss: ${data['P&L %']};
+  fetch(kpi_URL)
+    .then(res => res.json())
+    .then(data => {
+      const kpiData = data[0]; // data is an array
+      document.getElementById('capitalInvested').innerText = `Capital Invested: ${kpiData.capital}`;
+      document.getElementById('currentValue').innerText = `Current Value: ${kpiData.value}`;
+      document.getElementById('netProfit').innerText = `Net Profit/Loss: ${kpiData['P&L %']}`;
+    })
+    .catch(err => console.error("Failed to fetch KPI data:", err));
+</script>
+<script>
+  const kpi_URL = 'https://api.sheetbest.com/sheets/6e7c04dd-29bf-4ccd-955b-f6c358ec82a1/tabs/Sheet2';
+
+  fetch(kpi_URL)
+    .then(res => res.json())
+    .then(data => {
+      const kpiData = data[0]; // data is an array
+      document.getElementById('capitalInvested').innerText = `Capital Invested: ${kpiData.capital}`;
+      document.getElementById('currentValue').innerText = `Current Value: ${kpiData.value}`;
+      document.getElementById('netProfit').innerText = `Net Profit/Loss: ${kpiData['P&L %']}`;
+    })
+    .catch(err => console.error("Failed to fetch KPI data:", err));
+
 
         // Fill stock table (from 4th row onward)
         const tbody = document.querySelector('#portfolioTable tbody');
