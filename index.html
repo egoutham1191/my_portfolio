@@ -87,13 +87,13 @@ const invstmnt_URL = 'https://api.sheetbest.com/sheets/6e7c04dd-29bf-4ccd-955b-f
       .then(res => res.json())
       .then(data => {
         // Set KPI values (assumes first 3 rows are KPIs)
-      //  document.getElementById('capital').innerText = `Capital Invested: $${data[0].Value}`;
-        //document.getElementById('value').innerText = `Current Value: $${data[1].Value}`;
-        //document.getElementById('P&L').innerText = `Net Profit/Loss: $${data[2].Value}`;
-        const kpiData = data[1]
-        document.getElementById('capitalInvested').innerText = `Capital Invested: ${kpiData.capital}`;
-        document.getElementById('currentValue').innerText = `Current Value: ${kpiData.value}`;
-        document.getElementById('netProfit').innerText = `Net Profit/Loss: ${kpiData['P&L %']}
+      //  document.getElementById('Capital Invested').innerText = `Capital Invested: ${data.capital}`;
+        //document.getElementById('value').innerText = `Current Value: ${data.Value}`;
+        //document.getElementById('P&L').innerText = `Net Profit/Loss: ${data["P&L %]}`;
+      //  const kpiData = data[1]
+        document.getElementById('capitalInvested').innerText = `Capital Invested: ${data.capital}`;
+        document.getElementById('currentValue').innerText = `Current Value: ${data.value}`;
+        document.getElementById('netProfit').innerText = `Net Profit/Loss: ${data['P&L %']};
 
         // Fill stock table (from 4th row onward)
         const tbody = document.querySelector('#portfolioTable tbody');
