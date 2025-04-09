@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Portfolio</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #facc15;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      text-align: center;
+      font-size: 2em;
+      font-weight: bold;
+      padding: 1em 0;
+    }
+    .kpi-container {
+      display: flex;
+      justify-content: space-around;
+      padding: 1em;
+    }
+    .kpi-tile {
+      background-color: #fff;
+      color: #facc15;
+      padding: 1.5em;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(192, 192, 192, 0.5);
+      width: 25%;
+      text-align: center;
+    }
+    table {
+      width: 90%;
+      margin: 2em auto;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 4px 15px rgba(192, 192, 192, 0.5);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 0.75em;
+      border: 1px solid #ccc;
+      text-align: center;
+      color: #000;
+    }
+    th {
+      background-color: #facc15;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <header>MY PORTFOLIO</header>
+
+  <div class="kpi-container">
+    <div class="kpi-tile" id="capitalInvested">Capital Invested: Loading...</div>
+    <div class="kpi-tile" id="currentValue">Current Value: Loading...</div>
+    <div class="kpi-tile" id="netProfit">Net Profit/Loss: Loading...</div>
+  </div>
+
+  <table id="portfolioTable">
+    <thead>
+      <tr>
+        <th>Stock</th>
+        <th>Qty</th>
+        <th>% of Portfolio</th>
+        <th>Avg Cost</th>
+        <th>Total Invested</th>
+        <th>Current Price</th>
+        <th>Current Value</th>
+        <th>% Gain/Loss</th>
+        <th>Total Gain/Loss</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const SHEET_URL = 'https://sheet.best/api/sheets/YOUR-SHEET-ID'; // Replace with Sheet.best API link
+
+    fetch(SHEET_URL)
+      .then(res => res.json())
+      .then(data => {
+        // Set KPI values (assumes first 3 rows are KPIs)
+        document.getElementById('capitalInvested').innerText = `Capital Invested: $${data[0].Value}`;
+        document.getElementById('currentValue').innerText = `Current Value: $${data[1].Value}`;
+        document.getElementById('netProfit').innerText = `Net Profit/Loss: $${data[2].Value}`;
+
+        // Fill stock table (from 4th row onward)
+        const tbody = document.querySelector('#portfolioTable tbody');
+        for (let i = 3; i < data.length; i++) {
+          const row = data[i];
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${row.Stock}</td>
+            <td>${row.Qty}</td>
+            <td>${row["% of Portfolio"]}</td>
+            <td>${row["Avg Cost"]}</td>
+            <td>${row["Total Invested"]}</td>
+            <td>${row["Current Price"]}</td>
+            <td>${row["Current Value"]}</td>
+            <td>${row["% Gain/Loss"]}</td>
+            <td>${row["Total Gain/Loss"]}</td>
+          `;
+          tbody.appendChild(tr);
+        }
+      });
+  </script>
+</body>
+</html>
